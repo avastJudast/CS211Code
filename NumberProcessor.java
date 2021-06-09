@@ -70,24 +70,31 @@ public class NumberProcessor {
     2. The reverse of the number equals to the number itself. For example, 121 has a reverse 121.
     The method returns true if the number is ReversibleSum
     */
-    public static void main(String[] debug){
-        System.out.println(isReversibleSum(121));
-    }
-    public static boolean isReversibleSum(int num) {//TODO
+    public static boolean isReversibleSum(int num) {
         int sumPrime = 0;
-        for(int i = 2; i < num; i++){
-            if(isPrime(i)) sumPrime+=i;
-        }
+        for(int i = 2; i < num; i++){//find factors
+            if(isPrime(i)&&(num%i==0)){//specify prime factors
+                String parser = String.valueOf(i);
+                int tempSum = 0;
+                for(int j = 0; j < parser.length();j++){//sum digits
+                    tempSum+=Integer.parseInt(parser.substring(j,j+1));
+                }//sum digits
+                if(i*i==num){//case that factors are the same number
+                    tempSum*=2;//double the sum of digits for the given number    
+                }
+                sumPrime+=tempSum;                
+            }
+        }//this works as intended        
         int sumDigits = 0;
-        String parser = Integer.toString(num);
-        for(int i = 0; i < parser.length()-1; i++){
-            sumDigits+=Integer.parseInt(parser.substring(i,i+1));
-        }
+        String parser = Integer.toString(num);//turns the number into a string
+        for(int i = 0; i < parser.length(); i++){//checks every spot in the string
+            sumDigits+=Integer.parseInt(parser.substring(i,i+1));//takes each digit from the String and adds to sum
+        }//this works as intended
         String backwards = "";
         for(int i = parser.length()-1; i >= 0; i--){
-            backwards = parser.substring(i,i+1);
+            backwards += parser.substring(i,i+1);//turns out i forgot to put a plus here >:(
         }
-        int back = Integer.parseInt(backwards);
+        int back = Integer.parseInt(backwards);//turns back into int for comparison 
         return (num == back) && (sumPrime == sumDigits);	
     }
     /* 
@@ -97,22 +104,25 @@ public class NumberProcessor {
      - It has a size of x*(x+1)/2 for some positive integer x .
      For example {6, 2, 4, 2, 2, 2, 1, 5, 0, 0} isIncremental, whereas {2, 1, 2, 3, 5, 6} is not
     */
-    public static  boolean isIncremental(int[] array) {
-        int indexSum = 0;
-        int indexCheck = 2;
+    public static  boolean isIncremental(int[] array) {//TODO
+        int indexCheck = 2;//intial value
+        int index = 1;
         int sum = 0;
-        int checker = array[0];	
+        int value = array[0];
+        int target = 0;	
         for(int i = 1; i < array.length; i++){
             sum+=array[i];
-            indexSum+=1;
-            if(indexSum == indexCheck){
-                indexSum = 0;
-                indexCheck++;
-                if(sum!=checker) return false;
-                sum = 0;
+           // System.out.println("array[i]: "+array[i]+" index: "+index+" indexCheck: "+indexCheck + " sum: "+sum); //DEBUG
+            if(index == indexCheck){
+                target = index;//saves for comparison at the end
+                index = 0;     //resets index
+                indexCheck++;  //moves the next amount of indecies to move
+                if(sum!=value) return false;
+                sum = 0;       //resets sum for given run
             }
+            index++; //increment AFTER checking 
         }
-        return indexSum*(indexSum+1)/2 == array.length;
+        return target*(target+1)/2 == array.length;
     }
     //This method accepts array of integers and sort the array 
     public static int findMax(int[] data){
@@ -126,12 +136,17 @@ public class NumberProcessor {
         }
         return index;
     }
-    public static void descendingSort (int[] data){//TODO
+    public static void descendingSort (int[] data){
         int temp = 0;
+        int[] tempData = new int[data.length] 
+        for(int i = 0; i <data.length;i++){
+            tempData[i] = data[i];
+        }//copies array into temp array
         for(int i=0; i < data.length; i++){
-            temp = data[i];
-            data[i] = data[findMax(data)];
-            data[findMax(data)] = temp;	
+            temp = data[i];                   //saves number to be moved
+            data[i] = data[findMax(tempData)];//sets maximum to that spot
+            data[findMax(tempData)] = temp;   //moves old number to where max was
+            tempData[findMax(tempData)] = 0;  //destroy max to make my findMax method work
         }
     }
     /* 
@@ -147,10 +162,11 @@ public class NumberProcessor {
             if(array[i] < 0) continue;
             for(int j = 0; j < array.length; j++){
                 if(array[j] < 0) continue;
-                if(i!=j && array[i]+array[j]==10){
+                if(i!=j && array[i]+array[j]==10){//if not comparing same number and their sum is 10
                     sumPairs++;
                     array[i] = -1;//this will lock the pair from being counted twice
                     array[j] = -1;//and being considered from other pairs
+                    //normally you would use a copy as to not destroy the original data but that wasn't required for this.
                 }
             }
         }
@@ -165,7 +181,13 @@ public class NumberProcessor {
     3 	{0,0,1,0,2,1,3,2,1}
     4 	{0,0,0,1,0,0,2,1,0,3,2,1,4,3,2,1}
     */
-    public static int [ ] arrayPattern(int n) {
+    public static void main(String[] debug){
+        int[] arr = arrayPattern(4);
+        for(int i = 0; i < arr.length; i++){
+            System.out.print(arr[i]+",");
+        }        
+    }
+    public static int [ ] arrayPattern(int n) {//TODO
         int[] arr = new int[n*n];
         int block = n-1;
         int count = n;
