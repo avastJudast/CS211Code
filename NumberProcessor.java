@@ -144,9 +144,10 @@ public class NumberProcessor {
         }//copies array into temp array
         for(int i=0; i < data.length; i++){
             temp = data[i];                   //saves number to be moved
-            data[i] = data[findMax(tempData)];//sets maximum to that spot
-            data[findMax(tempData)] = temp;   //moves old number to where max was
-            tempData[findMax(tempData)] = 0;  //destroy max to make my findMax method work
+            tempIndex = findMax(tempData);
+            data[i] = data[tempIndex];//sets maximum to that spot
+            data[tempIndex] = temp;   //moves old number to where max was
+            tempData[tempIndex] = 0;  //destroy max to make my findMax method work
         }
     }
     /* 
@@ -181,27 +182,24 @@ public class NumberProcessor {
     3 	{0,0,1,0,2,1,3,2,1}
     4 	{0,0,0,1,0,0,2,1,0,3,2,1,4,3,2,1}
     */
-    public static void main(String[] debug){
-        int[] arr = arrayPattern(4);
+    public static int [ ] arrayPattern(int n) {
+        int[] arr = new int[n*n];//declare array of appropriate size
+        int block = n-1;         //how many digits to block
+        int maxBlock = block;    //how many digits the block will block for a given count cycle
+        int count = n;           //will be assigned to array
         for(int i = 0; i < arr.length; i++){
-            System.out.print(arr[i]+",");
-        }        
-    }
-    public static int [ ] arrayPattern(int n) {//TODO
-        int[] arr = new int[n*n];
-        int block = n-1;
-        int count = n;
-        for(int i = 0; i < arr.length; i++){
-            if(block != 0){
-                arr[i] = 0;
+            if(block != 0){     //if block is still enabled
+                arr[i] = 0;     //make spot = 0
+                block--;        //decrement the block
             }else{
-                arr[i] = count;
+                arr[i] = count; //block disabled assign appropriate value
             }	
-            if((i+1)%n == 0){
-                block--;
-                count = n;	
+            count--;            //decrement count regardless of block
+            if(count == 0){     //if count is zero after decrement
+                maxBlock--;     //new cycle decrement max block
+                block = maxBlock;//set block to appropriate size
+                count = n;	    //reset count
             }
-            count--;
         }
         return arr;
     }
@@ -210,12 +208,20 @@ public class NumberProcessor {
     An array is called Summative if the nth element (n >0) of the array is the sum of the first n elements. 
     For example, {2, 2, 4, 8, 16, 32, 64} is Summative, whereas {1, 1, 2, 4, 9, 17} is not.
     */
+
     public static boolean isSummative(int array[]) { 
-            sum = array[0];
+        int sum = array[0];
         for(int i=1; i < array.length; i++){
             if(array[i]!=sum) return false;
             sum+=array[i];
         }
         return true;
     }
+    /*
+    public static void main(String[] debug){
+        int[] arr = {1, 1, 2, 4, 9, 17};
+        System.out.println(isSummative(arr));
+        //System.out.println("length: "+arr.length);
+    }
+    */
 }
