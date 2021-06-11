@@ -138,13 +138,13 @@ public class NumberProcessor {
     }
     public static void descendingSort (int[] data){
         int temp = 0;
-        int[] tempData = new int[data.length] 
+        int[] tempData = new int[data.length];
         for(int i = 0; i <data.length;i++){
             tempData[i] = data[i];
         }//copies array into temp array
         for(int i=0; i < data.length; i++){
             temp = data[i];                   //saves number to be moved
-            tempIndex = findMax(tempData);
+            int tempIndex = findMax(tempData);
             data[i] = data[tempIndex];//sets maximum to that spot
             data[tempIndex] = temp;   //moves old number to where max was
             tempData[tempIndex] = 0;  //destroy max to make my findMax method work
@@ -157,19 +157,28 @@ public class NumberProcessor {
      The array {1,3,0,10,7} is not PairArray as more than one pair (10,0) and (3,7) sum to 10. 
      {4,1,11} is not also PairArray as no pair sums to 10
     */
+    
+    public static void main(String[] debug){
+        int[] arr = {14, 4, 7, 8};
+        System.out.println(isPairArray(arr));
+    }
+    
     public static boolean isPairArray(int array[]) {
         int sumPairs = 0;
         for(int i = 0; i < array.length; i++){
             if(array[i] < 0) continue;
             for(int j = 0; j < array.length; j++){
                 if(array[j] < 0) continue;
-                if(i!=j && array[i]+array[j]==10){//if not comparing same number and their sum is 10
+                if(i!=j && array[i]+array[j]==18){//if not comparing same number and their sum is 10
                     sumPairs++;
-                    array[i] = -1;//this will lock the pair from being counted twice
-                    array[j] = -1;//and being considered from other pairs
+                    //array[i] = -100;//this will lock the pair from being counted twice
+                    //array[j] = -100;//and being considered from other pairs
                     //normally you would use a copy as to not destroy the original data but that wasn't required for this.
                 }
             }
+        }
+        for(int i = 0; i < array.length; i++){
+            System.out.print(array[i]+" ");
         }
         return sumPairs == 1;
     }
