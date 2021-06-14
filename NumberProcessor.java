@@ -21,18 +21,23 @@ public class NumberProcessor {
     For example, 197 is a prime number, if we move the first digit to the end, 
     we will have a number 971, which is a prime number, if we again move the first digit to the end, we get 719, which is a prime number.
     */
-    
+    public static void main(String[] debug){
+        int arr = 9;
+        System.out.println(isUniquePrime(arr));
+    }
     public static boolean isPrime(int num){
         for(int i=2; i<num;i++){
-            if(num%i==0) return false;
+            if(num%i==0 || i*i==num) return false;
         }
         return true;
     }
 	public static boolean isUniquePrime(int num) {
-		String parser = Integer.toString(num);	
-		for(int i=1; i <= Math.floor(Math.log10(num)); i++){//number of places
-			if(!isPrime(num)) return false;
-			parser = parser.charAt(parser.length()-1) + parser.substring(1,parser.length()-1);
+        if(num<0) return false;
+		String parser = Integer.toString(num);
+        if(Integer.toString(num).length() == 1) return isPrime(num);//if a single digit, check if its prime	
+		for(int i=0; i < Integer.toString(num).length(); i++){//number of places
+            if(!isPrime(num)) return false;
+			parser = parser.charAt(parser.length()-1) + parser.substring(0,parser.length()-1);
 			num = Integer.parseInt(parser);
 		}
 		return true;	
@@ -156,13 +161,7 @@ public class NumberProcessor {
      For example, {4,16,6, 13} is PairArray as only 4 and 6 sum to 10
      The array {1,3,0,10,7} is not PairArray as more than one pair (10,0) and (3,7) sum to 10. 
      {4,1,11} is not also PairArray as no pair sums to 10
-    */
-    
-    public static void main(String[] debug){
-        int[] arr = {14, 4, 7, 8};
-        System.out.println(isPairArray(arr));
-    }
-    
+    */    
     public static boolean isPairArray(int array[]) {
         int sumPairs = 0;
         for(int i = 0; i < array.length; i++){
@@ -172,13 +171,10 @@ public class NumberProcessor {
                 if(i!=j && array[i]+array[j]==18){//if not comparing same number and their sum is 10
                     sumPairs++;
                     //array[i] = -100;//this will lock the pair from being counted twice
-                    //array[j] = -100;//and being considered from other pairs
+                    array[j] = -100;//and being considered from other pairs
                     //normally you would use a copy as to not destroy the original data but that wasn't required for this.
                 }
             }
-        }
-        for(int i = 0; i < array.length; i++){
-            System.out.print(array[i]+" ");
         }
         return sumPairs == 1;
     }
