@@ -130,6 +130,7 @@ public class NumberProcessor {
         return target*(target+1)/2 == array.length;
     }
     //This method accepts array of integers and sort the array 
+    //[1, 2, 3, 4, 5, 6] yeilds error TODO
     public static int findMax(int[] data){
         int maximum = data[0];
         int index = 0;
@@ -152,7 +153,7 @@ public class NumberProcessor {
             int tempIndex = findMax(tempData);
             data[i] = data[tempIndex];//sets maximum to that spot
             data[tempIndex] = temp;   //moves old number to where max was
-            tempData[tempIndex] = 0;  //destroy max to make my findMax method work
+            tempData[tempIndex] = -9999;  //destroy max to make my findMax method work
         }
     }
     /* 
@@ -213,7 +214,6 @@ public class NumberProcessor {
     An array is called Summative if the nth element (n >0) of the array is the sum of the first n elements. 
     For example, {2, 2, 4, 8, 16, 32, 64} is Summative, whereas {1, 1, 2, 4, 9, 17} is not.
     */
-
     public static boolean isSummative(int array[]) { 
         int sum = array[0];
         for(int i=1; i < array.length; i++){
@@ -222,11 +222,4 @@ public class NumberProcessor {
         }
         return true;
     }
-    /*
-    public static void main(String[] debug){
-        int[] arr = {1, 1, 2, 4, 9, 17};
-        System.out.println(isSummative(arr));
-        //System.out.println("length: "+arr.length);
-    }
-    */
 }
