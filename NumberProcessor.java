@@ -21,10 +21,10 @@ public class NumberProcessor {
     For example, 197 is a prime number, if we move the first digit to the end, 
     we will have a number 971, which is a prime number, if we again move the first digit to the end, we get 719, which is a prime number.
     */
-    public static void main(String[] debug){
-        int arr = 9;
-        System.out.println(isUniquePrime(arr));
-    }
+    //public static void main(String[] debug){
+    //   int arr = 9;
+    //    System.out.println(isUniquePrime(arr));
+    //}
     public static boolean isPrime(int num){
         for(int i=2; i<num;i++){
             if(num%i==0 || i*i==num) return false;
@@ -102,13 +102,13 @@ public class NumberProcessor {
         int back = Integer.parseInt(backwards);//turns back into int for comparison 
         return (num == back) && (sumPrime == sumDigits);	
     }
-    /* 
-     This method returns true if the array is Incremental false otherwise. 
-     An array is called Incremental if it has the following properties:
-     - The value of the first element equals the sum of the next two elements, which is equals to the next three elements, equals to the sum of the next four elements, etc.
-     - It has a size of x*(x+1)/2 for some positive integer x .
-     For example {6, 2, 4, 2, 2, 2, 1, 5, 0, 0} isIncremental, whereas {2, 1, 2, 3, 5, 6} is not
-    */
+        /* 
+        This method returns true if the array is Incremental false otherwise. 
+        An array is called Incremental if it has the following properties:
+        - The value of the first element equals the sum of the next two elements, which is equals to the next three elements, equals to the sum of the next four elements, etc.
+        - It has a size of x*(x+1)/2 for some positive integer x .
+        For example {6, 2, 4, 2, 2, 2, 1, 5, 0, 0} isIncremental, whereas {2, 1, 2, 3, 5, 6} is not
+        */
     public static  boolean isIncremental(int[] array) {//TODO
         int indexCheck = 2;//intial value
         int index = 1;
@@ -117,7 +117,7 @@ public class NumberProcessor {
         int target = 0;	
         for(int i = 1; i < array.length; i++){
             sum+=array[i];
-           // System.out.println("array[i]: "+array[i]+" index: "+index+" indexCheck: "+indexCheck + " sum: "+sum); //DEBUG
+            // System.out.println("array[i]: "+array[i]+" index: "+index+" indexCheck: "+indexCheck + " sum: "+sum); //DEBUG
             if(index == indexCheck){
                 target = index;//saves for comparison at the end
                 index = 0;     //resets index
@@ -129,40 +129,44 @@ public class NumberProcessor {
         }
         return target*(target+1)/2 == array.length;
     }
-    //This method accepts array of integers and sort the array 
-    //[1, 2, 3, 4, 5, 6] yeilds error TODO
-    public static int findMax(int[] data){
-        int maximum = data[0];
-        int index = 0;
-        for(int i=0; i < data.length; i++){
-            if(data[i] > maximum){
-            maximum = data[i];
-            index = i;	
+        //This method accepts array of integers and sort the array 
+        //[1, 2, 3, 4, 5, 6] yeilds error TODO
+    public static void main(String[] args){
+        int[] arg = {6, 5, 4, 2, 3, 1};
+        descendingSort(arg);
+    }
+    public static void descendingSort (int[] data){//THIS WORKS!
+        int temp = 0; //temp will house number to be moved
+        int max = data[0]; //this is starting value, but must be changed everytime 
+        int maxIndex = 0;  //keeps track of index at that max value
+        for(int i=0; i < data.length-1; i++){
+            temp = data[i];                      //saves number to be moved
+            max = data[i];            //limits max to not be already manipulated elements
+            //System.out.println("max is "+max);
+            maxIndex = i;            //limits max index, so if there is no maxIndex found, nothing will be swithed
+            for(int j = i; j < data.length; j++){//find max
+                //System.out.print("checking data[j]="+data[j] + " ");
+                if(data[j]>max){    // compares max
+                    max = data[j];  //saves new max
+                    maxIndex = j;   // and new max index
+                }
+                //System.out.println(); 
             }
-        }
-        return index;
-    }
-    public static void descendingSort (int[] data){
-        int temp = 0;
-        int[] tempData = new int[data.length];
-        for(int i = 0; i <data.length;i++){
-            tempData[i] = data[i];
-        }//copies array into temp array
-        for(int i=0; i < data.length; i++){
-            temp = data[i];                   //saves number to be moved
-            int tempIndex = findMax(tempData);
-            data[i] = data[tempIndex];//sets maximum to that spot
-            data[tempIndex] = temp;   //moves old number to where max was
-            tempData[tempIndex] = -9999;  //destroy max to make my findMax method work
+            //System.out.println("Switched "+data[i]+"@"+i+"with "+data[maxIndex]+"@"+maxIndex);
+            data[i] = data[maxIndex];   //the switch
+            data[maxIndex] = temp;      //the switch
+            //for(int k = 0; k < data.length; k++){
+            //    System.out.print(data[k]+" ");
+            //}System.out.println();
         }
     }
-    /* 
-     This method returns true if the array is PairArray, false otherwise.
-     An array is called PairArray if exactly one pair of its elements sum to 10. 
-     For example, {4,16,6, 13} is PairArray as only 4 and 6 sum to 10
-     The array {1,3,0,10,7} is not PairArray as more than one pair (10,0) and (3,7) sum to 10. 
-     {4,1,11} is not also PairArray as no pair sums to 10
-    */    
+        /* 
+        This method returns true if the array is PairArray, false otherwise.
+        An array is called PairArray if exactly one pair of its elements sum to 10. 
+        For example, {4,16,6, 13} is PairArray as only 4 and 6 sum to 10
+        The array {1,3,0,10,7} is not PairArray as more than one pair (10,0) and (3,7) sum to 10. 
+        {4,1,11} is not also PairArray as no pair sums to 10
+        */    
     public static boolean isPairArray(int array[]) {
         int sumPairs = 0;
         for(int i = 0; i < array.length; i++){
@@ -179,15 +183,15 @@ public class NumberProcessor {
         }
         return sumPairs == 1;
     }
-    /*   
-    this method accepts positive integer and returns an array of size n^2 with elements in a specific pattern. 
-    For example, for n = 2, the method returns an array with elements {0,1,2,1}.
-    input 	output array
-    1 	{1}
-    2 	{0, 1, 2, 1}
-    3 	{0,0,1,0,2,1,3,2,1}
-    4 	{0,0,0,1,0,0,2,1,0,3,2,1,4,3,2,1}
-    */
+        /*   
+        this method accepts positive integer and returns an array of size n^2 with elements in a specific pattern. 
+        For example, for n = 2, the method returns an array with elements {0,1,2,1}.
+        input 	output array
+        1 	{1}
+        2 	{0, 1, 2, 1}
+        3 	{0,0,1,0,2,1,3,2,1}
+        4 	{0,0,0,1,0,0,2,1,0,3,2,1,4,3,2,1}
+        */
     public static int [ ] arrayPattern(int n) {
         int[] arr = new int[n*n];//declare array of appropriate size
         int block = n-1;         //how many digits to block
@@ -209,11 +213,11 @@ public class NumberProcessor {
         }
         return arr;
     }
-    /* 
-    This method returns true if the array is Summative, false otherwise.
-    An array is called Summative if the nth element (n >0) of the array is the sum of the first n elements. 
-    For example, {2, 2, 4, 8, 16, 32, 64} is Summative, whereas {1, 1, 2, 4, 9, 17} is not.
-    */
+        /* 
+        This method returns true if the array is Summative, false otherwise.
+        An array is called Summative if the nth element (n >0) of the array is the sum of the first n elements. 
+        For example, {2, 2, 4, 8, 16, 32, 64} is Summative, whereas {1, 1, 2, 4, 9, 17} is not.
+        */
     public static boolean isSummative(int array[]) { 
         int sum = array[0];
         for(int i=1; i < array.length; i++){
