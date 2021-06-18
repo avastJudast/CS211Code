@@ -93,44 +93,43 @@ public class NumberProcessor {
     - It has a size of x*(x+1)/2 for some positive integer x .
     For example {6, 2, 4, 2, 2, 2, 1, 5, 0, 0} isIncremental, whereas {2, 1, 2, 3, 5, 6} is not*/
     public static  boolean isIncremental(int[] array) {
-        if(array.length == 1) return true;
-        int indexCheck = 2;//intial value
-        int index = 1;
-        int sum = 0;
-        int value = array[0];
-        int target = 0;	
-        for(int i = 1; i < array.length; i++){
-            sum+=array[i];
+        if(array.length == 1) return true;          //if only 1 number its true
+        int indexCheck = 2;                         //intialize at check for 2 indecies
+        int index = 1;                              //index starts after the first one
+        int sum = 0;                                //runing sum
+        int value = array[0];                       //comparison for all other sums
+        int target = 0;	                            //temp index
+        for(int i = 1; i < array.length; i++){      //for array from 1 to max
+            sum+=array[i];                          //sum is running sum of array elements
             // System.out.println("array[i]: "+array[i]+" index: "+index+" indexCheck: "+indexCheck + " sum: "+sum); //DEBUG
-            if(index == indexCheck){
-                target = index;//saves for comparison at the end
-                index = 0;     //resets index
-                indexCheck++;  //moves the next amount of indecies to move
-                if(sum!=value) return false;
-                sum = 0;       //resets sum for given run
+            if(index == indexCheck){                //until index reaches indexCheck
+                target = index;                     //saves for size comparison at the end (this is the implied x value)
+                index = 0;                          //resets index
+                indexCheck++;                       //increments the number of indecies to sum
+                if(sum!=value) return false;        //if any sums are not what they should be its not incremental 
+                sum = 0;                            //resets sum for given run
             }
-            index++; //increment AFTER checking 
+            index++;                                //increment AFTER checking 
         }
-        return target*(target+1)/2 == array.length;
+        return target*(target+1)/2 == array.length; //as per the guidelines
     }
     //This method accepts array of integers and sort the array 
     public static void descendingSort (int[] data){//THIS WORKS!
-        int temp = 0; //temp will house number to be moved
-        int max = data[0]; //this is starting value, but must be changed everytime 
-        int maxIndex = 0;  //keeps track of index at that max value
+        int temp = 0;                           //temp will house number to be moved
+        int max = data[0];                      //this is starting value, but must be changed everytime 
+        int maxIndex = 0;                       //keeps track of index at that max value
         for(int i=0; i < data.length-1; i++){
-            temp = data[i];                      //saves number to be moved
-            max = data[i];            //limits max to not be already manipulated elements
-            maxIndex = i;            //limits max index, so if there is no maxIndex found, nothing will be swithed
+            temp = data[i];                     //saves number to be moved
+            max = data[i];                      //limits max to not be already manipulated elements
+            maxIndex = i;                       //limits max index, so if there is no maxIndex found, nothing will be swithed
             for(int j = i; j < data.length; j++){//find max
-            
-                if(data[j]>max){    // compares max
-                    max = data[j];  //saves new max
-                    maxIndex = j;   // and new max index
+                if(data[j]>max){                //compares max
+                    max = data[j];              //saves new max
+                    maxIndex = j;               //and new max index
                 } 
             }
-            data[i] = data[maxIndex];   //the switch
-            data[maxIndex] = temp;      //the switch
+            data[i] = data[maxIndex];           //the switch
+            data[maxIndex] = temp;              //the switch 2 electric boogaloo 
         }
     }
     /*This method returns true if the array is PairArray, false otherwise.
@@ -139,15 +138,15 @@ public class NumberProcessor {
     The array {1,3,0,10,7} is not PairArray as more than one pair (10,0) and (3,7) sum to 10. 
     {4,1,11} is not also PairArray as no pair sums to 10*/    
     public static boolean isPairArray(int array[]) {
-        int sumPairs = 0;
-        for(int i = 0; i < array.length; i++){
-            if(array[i] < 0) continue;
-            for(int j = 0; j < array.length; j++){
-                if(array[j] < 0) continue;
-                if(i!=j && array[i]+array[j]==18){//if not comparing same number and their sum is 10
-                    sumPairs++;
-                    //array[i] = -100;//this will lock the pair from being counted twice
-                    array[j] = -100;//and being considered from other pairs
+        int sumPairs = 0;                           //running sum
+        for(int i = 0; i < array.length; i++){      //for array from 0 to max
+            if(array[i] < 0) continue;              //ignore negatives (maybe wrong, but tests work)
+            for(int j = 0; j < array.length; j++){  
+                if(array[j] < 0) continue;          //need nested for loop to check for pairs
+                if(i!=j && array[i]+array[j]==18){  //if not comparing same number and their sum is 10
+                    sumPairs++;                     //APPARENTLY ITS 18??
+                    //array[i] = -100;              //this will lock the pair from being counted twice
+                    array[j] = -100;                //and being considered from other pairs
                     //normally you would use a copy as to not destroy the original data but that wasn't required for this.
                 }
             }
@@ -181,11 +180,11 @@ public class NumberProcessor {
     An array is called Summative if the nth element (n >0) of the array is the sum of the first n elements. 
     For example, {2, 2, 4, 8, 16, 32, 64} is Summative, whereas {1, 1, 2, 4, 9, 17} is not.*/
     public static boolean isSummative(int array[]) { 
-        int sum = array[0];
-        for(int i=1; i < array.length; i++){
-            if(array[i]!=sum) return false;
-            sum+=array[i];
+        int sum = array[0];                     //i dont remember   
+        for(int i=1; i < array.length; i++){    //oh yeah
+            if(array[i]!=sum) return false;     //if a next element isnt sum of all previous elements then its not summative
+            sum+=array[i];                      //sum of elements so far
         }
-        return true;
+        return true;                            //if all elements are passed then its summative 
     }
 }
